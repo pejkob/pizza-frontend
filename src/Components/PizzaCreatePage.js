@@ -1,52 +1,53 @@
-import { useState, useEffect } from 'react';
-import {NavLink} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export function PizzaCreatePage() {
 
-    const [instruments, setInstruments] = useState([]);
-    const [isFetchPending, setFetchPending] = useState(false);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        setFetchPending(true);
-        fetch("https://kodbazis.hu/api/instruments", {credentials: "include"})
-        .then((res) => res.json())
-        .then((hangszerek) => setInstruments(hangszerek))
-        .catch(console.log)
-        .finally(() => {
-            setFetchPending(false);
-        });
- }, []);
- return (
-   <div className='p-5 m-auto text-center content bg-ivory'>
-    { isFetchPending ? ( <div className='spinner-border'></div>) : (
-        <div>
-            <h2>Hangszerek</h2>
-            {instruments.map((instrument) => (
-                <div key={instrument.id + 4} className='card col-sm-3 d-inline-block m-1 p-2'>
-                    <h6 className='text-muted'>{instrument.brand}</h6>
-                    <h5 className='text-muted'>{instrument.name}</h5>
-                    <div>{instrument.price}.- HUF</div>
-                    <div className='small'>Készleten: {instrument.quantity} db</div>
-                    <NavLink key={instrument.id} to={"/hangszer/" + instrument.id}>
-                    <div className='card-body'>
-                        <img className='img-fluid'
-                        style={{ maxHeight: 200 }}
-                        alt = "hiányzik a képed innen!"
-                        src={instrument.imageURL ? instrument.imageURL : "https://via.placeholder.com/400x800"}
-                        />
-                    </div></NavLink>
-                    <br />
-                    <NavLink key={instrument.id+1} to={"/mod-hangszer/" + instrument.id}>
-                        <i className="bi bi-pencil-square mx-1">Módosítás</i>
-                    </NavLink>
-                    <NavLink key={instrument.id+2} to={"/del-hangszer/" + instrument.id} className={"text-danger"}>
-                        <i className="bi bi-trash3">Törlés</i>
-                    </NavLink>
+    return (
+        <div className='p-5 content bg-whitesmoke text-center'>
+            <h2>Új pizza</h2>
+            <form
+            onSubmit={(e) => {
+                e.persist();
+                e.preventDefault();
+                fetch("https://pizza.kando-dev.eu/Pizza", {
+                    method: "POST",
+                   
+                    body: JSON.stringify({
+                        name: e.target.elements.name.value,
+                        isGlutenFree: e.target.elements.glutenfree.value,
+                        kepURL: e.target.elements.kepURL.value,
+                    }),
+                })
+                .then(() => {
+                    navigate("/");
+                })
+                .catch(console.log);
+            }}
+                >
+                <div className='form-group row pb-3'>
+                    <label htmlFor="name" className='col-sm-3 col-form-label'> Név: </label>
+                        <div>
+                            <input type="text" id="name" name="name" className="form-control" autoComplete='name' />
+                        </div>
+                </div>
+                <div className='form-group row pb-3'>
+                    <label htmlFor="glutenfree" className='col-sm-3 col-form-label'> Gluténmentes: </label>
+                        <div>
+                            <input type="number" id="glutenfree" name="glutenfree" className="form-control" autoComplete='glutenfree' />
+                        </div>
                 </div>
                 
-            ))}
+                <div className='form-group row pb-3'>
+                    <label htmlFor="kepURL" className='col-sm-3 col-form-label'> Kép URL: </label>
+                        <div>
+                            <input type="text" id="kepURL" name="kepURL" className="form-control" autoComplete='kepURL' />
+                        </div>
+                </div>
+                <button type="submit" className='btn btn-success'>Küldés</button>
+                </form>
+            
         </div>
-    )}
-   </div> 
- );
+    );
 }

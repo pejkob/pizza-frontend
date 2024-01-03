@@ -34,10 +34,10 @@ export function PizzaListPage() {
                         />
                     </div></NavLink>
                     <br />
-                    <NavLink key={pizza.id+1} to={"/mod-hangszer/" + pizza.id}>
+                    <NavLink key={pizza.id+1} to={"/mod-pizza/" + pizza.id}>
                         <i className="bi bi-pencil-square mx-1">Módosítás</i>
                     </NavLink>
-                    <NavLink key={pizza.id+2} to={"/del-hangszer/" + pizza.id} className={"text-danger"}>
+                    <NavLink key={pizza.id+2} to={"/del-pizza/" + pizza.id} className={"text-danger"}>
                         <i className="bi bi-trash3">Törlés</i>
                     </NavLink>
                 </div>

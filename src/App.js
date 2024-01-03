@@ -18,7 +18,7 @@ function App() {
               </NavLink>
             </li>
             <li className="nav-item">
-            <NavLink to={`/uj-hangszer`} className="nav-link">
+            <NavLink to={`/uj-pizza`} className="nav-link">
               <span className="nav-link">Új pizza</span>
               </NavLink>
             </li>
@@ -27,7 +27,7 @@ function App() {
       </nav>
       <Routes>
           <Route path="/" element={<PizzaListPage />} />
-          <Route path="/Pizza/:id" element={<PizzaSinglePage />} />
+          <Route path="/Pizza/:pizzaid" element={<PizzaSinglePage />} />
           <Route path="uj-pizza" element={<PizzaCreatePage />} />
           <Route path="mod-hangszer/:id" element={<PizzaModPage />} />
           <Route path="del-hangszer/:id" element={<PizzaDeletePage />} />
