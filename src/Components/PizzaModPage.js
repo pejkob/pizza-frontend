@@ -19,7 +19,7 @@ export function PizzaModPage() {
             setPizza(pizzaData);
             setModname(pizzaData.name);
             setModGluten(pizzaData.isGlutenFree);
-            setModimageurl(pizzaData.imageURL);
+            setModimageurl(pizzaData.kepURL);
         } catch (error) {
             console.log(error);   
         } 
@@ -46,8 +46,8 @@ return(
                 method: "PUT",
                 body: JSON.stringify({
                     name: e.target.elements.name.value,
-                    quantity: e.target.elements.quantity.value,
-                    imageURL: e.target.elements.imageURL.value,
+                    isGlutenFree: e.target.elements.isGlutenFree.value,
+                    kepURL: e.target.elements.kepURL.value,
                 }),
             })
             .then(() => {
@@ -63,13 +63,13 @@ return(
             </div>
 
             <div className='form-group row pb-3'>
-            <div><label htmlFor="quantity" className='col-sm-3 col-form-label'> Gluténmentes: </label>   
-                        <input type="number" id="quantity" name="quantity" className="form-control" defaultValue={modgluten} onChange={modGluten} autoComplete="off" />
+            <div><label htmlFor="isGlutenFree" className='col-sm-3 col-form-label'> Gluténmentes: </label>   
+                        <input type="number" id="isGlutenFree" name="isGlutenFree" className="form-control" defaultValue={modgluten} onChange={modGluten} autoComplete="off" />
                     </div>
             </div>
             <div className='form-group row pb-3'>
-            <div><label htmlFor="imageURL" className='col-sm-3 col-form-label'> Kép URL: </label>   
-                        <input type="text" id="imageURL" name="imageURL" className="form-control" defaultValue={modimageurl} onChange={modimageUrl} autoComplete="off" />
+            <div><label htmlFor="kepURL" className='col-sm-3 col-form-label'> Kép URL: </label>   
+                        <input type="text" id="kepURL" name="kepURL" className="form-control" defaultValue={modimageurl} onChange={modimageUrl} autoComplete="off" />
                     </div>
             </div>
             <button type="submit" className='btn btn-success'>Küldés</button>
