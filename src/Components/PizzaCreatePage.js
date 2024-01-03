@@ -13,10 +13,13 @@ export function PizzaCreatePage() {
                 e.preventDefault();
                 fetch("https://pizza.kando-dev.eu/Pizza", {
                     method: "POST",
-                   
+                    headers: { 
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
+                    },
                     body: JSON.stringify({
                         name: e.target.elements.name.value,
-                        isGlutenFree: e.target.elements.glutenfree.value,
+                        isGlutenFree: e.target.elements.isGlutenFree.value,
                         kepURL: e.target.elements.kepURL.value,
                     }),
                 })
@@ -33,9 +36,9 @@ export function PizzaCreatePage() {
                         </div>
                 </div>
                 <div className='form-group row pb-3'>
-                    <label htmlFor="glutenfree" className='col-sm-3 col-form-label'> Gluténmentes: </label>
+                    <label htmlFor="isGlutenFree" className='col-sm-3 col-form-label'> Gluténmentes: </label>
                         <div>
-                            <input type="number" id="glutenfree" name="glutenfree" className="form-control" autoComplete='glutenfree' />
+                            <input type="number" id="isGlutenFree" name="isGlutenFree" className="form-control" autoComplete='isGlutenFree' />
                         </div>
                 </div>
                 

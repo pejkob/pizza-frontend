@@ -1,52 +1,90 @@
-import { useState, useEffect } from 'react';
-import {NavLink} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export function PizzaModPage() {
-
-    const [instruments, setInstruments] = useState([]);
-    const [isFetchPending, setFetchPending] = useState(false);
+    const param = useParams();
+    const navigate = useNavigate();
+    const id = param.hangszerId;
+    const [, setInstrument] = useState([]);
+    const [modname, setModname] = useState("");
+    const [modprice, setModprice] = useState("");
+    const [modbrand, setModbrand] = useState("");
+    const [modquantity, setModquantity] = useState("");
+    const [modimageurl, setModimageurl] = useState("");
 
     useEffect(() => {
-        setFetchPending(true);
-        fetch("https://kodbazis.hu/api/instruments", {credentials: "include"})
-        .then((res) => res.json())
-        .then((hangszerek) => setInstruments(hangszerek))
-        .catch(console.log)
-        .finally(() => {
-            setFetchPending(false);
-        });
- }, []);
- return (
-   <div className='p-5 m-auto text-center content bg-ivory'>
-    { isFetchPending ? ( <div className='spinner-border'></div>) : (
-        <div>
-            <h2>Hangszerek</h2>
-            {instruments.map((instrument) => (
-                <div key={instrument.id + 4} className='card col-sm-3 d-inline-block m-1 p-2'>
-                    <h6 className='text-muted'>{instrument.brand}</h6>
-                    <h5 className='text-muted'>{instrument.name}</h5>
-                    <div>{instrument.price}.- HUF</div>
-                    <div className='small'>Készleten: {instrument.quantity} db</div>
-                    <NavLink key={instrument.id} to={"/hangszer/" + instrument.id}>
-                    <div className='card-body'>
-                        <img className='img-fluid'
-                        style={{ maxHeight: 200 }}
-                        alt = "hiányzik a képed innen!"
-                        src={instrument.imageURL ? instrument.imageURL : "https://via.placeholder.com/400x800"}
-                        />
-                    </div></NavLink>
-                    <br />
-                    <NavLink key={instrument.id+1} to={"/mod-hangszer/" + instrument.id}>
-                        <i className="bi bi-pencil-square mx-1">Módosítás</i>
-                    </NavLink>
-                    <NavLink key={instrument.id+2} to={"/del-hangszer/" + instrument.id} className={"text-danger"}>
-                        <i className="bi bi-trash3">Törlés</i>
-                    </NavLink>
-                </div>
-                
-            ))}
-        </div>
-    )}
-   </div> 
- );
+
+        (async () => {
+            try {
+            const res = await fetch(`https://kodbazis.hu/api/instruments/${id}`, { credentials: "include" });
+            const instrumentData = await res.json();
+            setInstrument(instrumentData);
+            setModname(instrumentData.name);
+            setModprice(instrumentData.price);
+            setModbrand(instrumentData.brand);
+            setModquantity(instrumentData.quantity);
+            setModimageurl(instrumentData.imageURL);
+        } catch (error) {
+            console.log(error);   
+        } 
+    })();
+}, [id, modname, modprice, modbrand, modquantity, modimageurl]);
+
+const modName = (e) => {
+    setModname(e.target.value);
+}
+const modPrice = (e) => {
+    setModprice(e.target.value);
+}
+const modBrand = (e) => {
+    setModbrand(e.target.value);
+}
+const modQuantity = (e) => {
+    setModquantity(e.target.value);  
+}
+const modimageUrl = (e) => {
+    setModimageurl(e.target.value);
+}
+return(
+    <div className='p-5 content bg-lavender text-center'>
+        <h2>Pizza módosítás</h2>
+        <form
+        onSubmit={(e) => {
+            e.preventDefault();
+            fetch(`https://kodbazis.hu/api/instruments/${id}`, {
+                method: "PUT",
+                credentials: "include",
+                body: JSON.stringify({
+                    name: e.target.elements.name.value,
+                    quantity: e.target.elements.quantity.value,
+                    imageURL: e.target.elements.imageURL.value,
+                }),
+            })
+            .then(() => {
+                navigate("/");
+            })
+            .catch(console.log);
+        }}
+            >
+            <div className='form-group row pb-3'>
+            <div><label htmlFor="name" className='col-sm-3 col-form-label'> Név: </label>
+                        <input type="text" id="name" name="name" className="form-control" defaultValue={modname} onChange={modName} autoComplete="off"/>
+                    </div>
+            </div>
+            
+            <div className='form-group row pb-3'>
+            <div><label htmlFor="quantity" className='col-sm-3 col-form-label'> Darabszám: </label>   
+                        <input type="number" id="quantity" name="quantity" className="form-control" defaultValue={modquantity} onChange={modQuantity} autoComplete="off" />
+                    </div>
+            </div>
+            <div className='form-group row pb-3'>
+            <div><label htmlFor="imageURL" className='col-sm-3 col-form-label'> Kép URL: </label>   
+                        <input type="text" id="imageURL" name="imageURL" className="form-control" defaultValue={modimageurl} onChange={modimageUrl} autoComplete="off" />
+                    </div>
+            </div>
+            <button type="submit" className='btn btn-success'>Küldés</button>
+            </form>
+        
+    </div>
+);
 }
