@@ -1,52 +1,65 @@
 import { useState, useEffect } from 'react';
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate, useParams} from "react-router-dom";
 
 export function PizzaDeletePage() {
 
-    const [instruments, setInstruments] = useState([]);
-    const [isFetchPending, setFetchPending] = useState(false);
+    const navigate = useNavigate();
+    const param = useParams();
+    const id = param.pizzaid;
+    const [pizza, setPizza] = useState([]);
+    const [isPending, setPending] = useState(false);
 
     useEffect(() => {
-        setFetchPending(true);
-        fetch("https://kodbazis.hu/api/instruments", {credentials: "include"})
-        .then((res) => res.json())
-        .then((hangszerek) => setInstruments(hangszerek))
-        .catch(console.log)
-        .finally(() => {
-            setFetchPending(false);
-        });
- }, []);
- return (
-   <div className='p-5 m-auto text-center content bg-ivory'>
-    { isFetchPending ? ( <div className='spinner-border'></div>) : (
-        <div>
-            <h2>Hangszerek</h2>
-            {instruments.map((instrument) => (
-                <div key={instrument.id + 4} className='card col-sm-3 d-inline-block m-1 p-2'>
-                    <h6 className='text-muted'>{instrument.brand}</h6>
-                    <h5 className='text-muted'>{instrument.name}</h5>
-                    <div>{instrument.price}.- HUF</div>
-                    <div className='small'>Készleten: {instrument.quantity} db</div>
-                    <NavLink key={instrument.id} to={"/hangszer/" + instrument.id}>
+        setPending(true);
+        (async () => {
+            try {
+            const res = await fetch(`https://pizza.kando-dev.eu/Pizza/${id}`);
+            const pizza = await res.json();
+            setPizza(pizza);
+        } catch (error) {
+            console.log(error);   
+        }
+        finally {
+            setPending(false);
+        }
+    })();
+    }, [id]);
+    return (
+             <div className='p-5 m-auto text-center content bg-lavender'>
+    { isPending || !pizza.id ? ( <div className='spinner-border'></div>) : (       
+                <div>
+                <h2>Pizza törlése</h2>
+                <div className='card p-3'>
                     <div className='card-body'>
-                        <img className='img-fluid'
-                        style={{ maxHeight: 200 }}
+                    <h4>{pizza.brand}</h4>
+                    <h5 className='card-title'>{pizza.name}</h5>
+                    <p>Gluténmentes: {pizza.isGlutenFree?"Igen":"Nem"}</p>
+                        <img className='img-fluid rounded'
+                        style={{ maxHeight: "500px" }}
                         alt = "hiányzik a képed innen!"
-                        src={instrument.imageURL ? instrument.imageURL : "https://via.placeholder.com/400x800"}
-                        />
-                    </div></NavLink>
-                    <br />
-                    <NavLink key={instrument.id+1} to={"/mod-hangszer/" + instrument.id}>
-                        <i className="bi bi-pencil-square mx-1">Módosítás</i>
-                    </NavLink>
-                    <NavLink key={instrument.id+2} to={"/del-hangszer/" + instrument.id} className={"text-danger"}>
-                        <i className="bi bi-trash3">Törlés</i>
-                    </NavLink>
+                        src={pizza.imageURL ? pizza.imageURL : "https://via.placeholder.com/400x800"}
+                        /></div>
+                        <form onSubmit={async (e) => {
+                            try{
+                            e.preventDefault();
+                            await fetch(`https://pizza.kando-dev.eu/Pizza/${id}`, {
+                                method: "DELETE",
+                                
+                            });
+                            navigate("/");}
+                        catch(error) {
+                            console.log(error);
+                        };
+                        }}>
+                        <div>
+                            <NavLink  to={"/"}>
+                                <button className="bi bi-backspace btn btn-warning rounded">Mégsem</button>
+                            </NavLink>
+                            <button className="bi bi-trash3 btn btn-danger rounded">Törlés</button>
+                        </div>
+                        </form>
+                    </div>
                 </div>
-                
-            ))}
-        </div>
-    )}
-   </div> 
- );
+            )} </div>
+    );
 }

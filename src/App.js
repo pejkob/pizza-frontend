@@ -30,7 +30,7 @@ function App() {
           <Route path="/Pizza/:pizzaid" element={<PizzaSinglePage />} />
           <Route path="uj-pizza" element={<PizzaCreatePage />} />
           <Route path="mod-pizza/:pizzaid" element={<PizzaModPage />} />
-          <Route path="del-hangszer/:id" element={<PizzaDeletePage />} />
+          <Route path="del-pizza/:pizzaid" element={<PizzaDeletePage />} />
       </Routes>
     </Router>
   );
