@@ -4,43 +4,34 @@ import { useState, useEffect } from "react";
 export function PizzaModPage() {
     const param = useParams();
     const navigate = useNavigate();
-    const id = param.hangszerId;
-    const [, setInstrument] = useState([]);
+    const id = param.pizzaid;
+    const [, setPizza] = useState([]);
     const [modname, setModname] = useState("");
-    const [modprice, setModprice] = useState("");
-    const [modbrand, setModbrand] = useState("");
-    const [modquantity, setModquantity] = useState("");
+    const [modgluten, setModGluten] = useState("");
     const [modimageurl, setModimageurl] = useState("");
 
     useEffect(() => {
 
         (async () => {
             try {
-            const res = await fetch(`https://kodbazis.hu/api/instruments/${id}`, { credentials: "include" });
-            const instrumentData = await res.json();
-            setInstrument(instrumentData);
-            setModname(instrumentData.name);
-            setModprice(instrumentData.price);
-            setModbrand(instrumentData.brand);
-            setModquantity(instrumentData.quantity);
-            setModimageurl(instrumentData.imageURL);
+            const res = await fetch(`https://pizza.kando-dev.eu/Pizza/${id}`);
+            const pizzaData = await res.json();
+            setPizza(pizzaData);
+            setModname(pizzaData.name);
+            setModGluten(pizzaData.isGlutenFree);
+            setModimageurl(pizzaData.imageURL);
         } catch (error) {
             console.log(error);   
         } 
     })();
-}, [id, modname, modprice, modbrand, modquantity, modimageurl]);
+}, [id, modname, modgluten, modimageurl]);
 
 const modName = (e) => {
     setModname(e.target.value);
 }
-const modPrice = (e) => {
-    setModprice(e.target.value);
-}
-const modBrand = (e) => {
-    setModbrand(e.target.value);
-}
-const modQuantity = (e) => {
-    setModquantity(e.target.value);  
+
+const modGluten = (e) => {
+    setModGluten(e.target.value);  
 }
 const modimageUrl = (e) => {
     setModimageurl(e.target.value);
@@ -51,9 +42,8 @@ return(
         <form
         onSubmit={(e) => {
             e.preventDefault();
-            fetch(`https://kodbazis.hu/api/instruments/${id}`, {
+            fetch(`https://pizza.kando-dev.eu/Pizza/${id}`, {
                 method: "PUT",
-                credentials: "include",
                 body: JSON.stringify({
                     name: e.target.elements.name.value,
                     quantity: e.target.elements.quantity.value,
@@ -71,10 +61,10 @@ return(
                         <input type="text" id="name" name="name" className="form-control" defaultValue={modname} onChange={modName} autoComplete="off"/>
                     </div>
             </div>
-            
+
             <div className='form-group row pb-3'>
-            <div><label htmlFor="quantity" className='col-sm-3 col-form-label'> Darabszám: </label>   
-                        <input type="number" id="quantity" name="quantity" className="form-control" defaultValue={modquantity} onChange={modQuantity} autoComplete="off" />
+            <div><label htmlFor="quantity" className='col-sm-3 col-form-label'> Gluténmentes: </label>   
+                        <input type="number" id="quantity" name="quantity" className="form-control" defaultValue={modgluten} onChange={modGluten} autoComplete="off" />
                     </div>
             </div>
             <div className='form-group row pb-3'>

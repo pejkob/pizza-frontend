@@ -29,7 +29,7 @@ function App() {
           <Route path="/" element={<PizzaListPage />} />
           <Route path="/Pizza/:pizzaid" element={<PizzaSinglePage />} />
           <Route path="uj-pizza" element={<PizzaCreatePage />} />
-          <Route path="mod-hangszer/:id" element={<PizzaModPage />} />
+          <Route path="mod-pizza/:pizzaid" element={<PizzaModPage />} />
           <Route path="del-hangszer/:id" element={<PizzaDeletePage />} />
       </Routes>
     </Router>
