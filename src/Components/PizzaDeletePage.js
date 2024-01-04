@@ -37,7 +37,7 @@ export function PizzaDeletePage() {
                         <img className='img-fluid rounded'
                         style={{ maxHeight: "500px" }}
                         alt = "hiányzik a képed innen!"
-                        src={pizza.imageURL ? pizza.imageURL : "https://via.placeholder.com/400x800"}
+                        src={pizza.kepURL ? pizza.kepURL : "https://via.placeholder.com/400x800"}
                         /></div>
                         <form onSubmit={async (e) => {
                             try{
