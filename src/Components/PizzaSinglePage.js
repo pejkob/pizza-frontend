@@ -15,7 +15,7 @@ export function PizzaSinglePage() {
         const res = await fetch(`https://pizza.kando-dev.eu/Pizza/${id}`)
         const pizza =await res.json();
         setPizzas(pizza);
-        } catch(error) {
+        }catch(error) {
             console.log(error);
         }
         finally{

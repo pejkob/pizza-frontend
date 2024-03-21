@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {NavLink} from "react-router-dom";
 
@@ -8,13 +9,27 @@ export function PizzaListPage() {
 
     useEffect(() => {
         setFetchPending(true);
-        fetch("https://pizza.kando-dev.eu/Pizza")
-        .then((res) => res.json())
-        .then((pizza) => setPizzas(pizza))
-        .catch(console.log)
+
+
+        axios.get('https://pizza.kando-dev.eu/Pizza')
+        .then(function (response) {
+          setPizzas(response.data)
+        })
         .finally(() => {
             setFetchPending(false);
         });
+        ;
+
+
+
+       /*  fetch("https://pizza.kando-dev.eu/Pizza")
+        .then((res) => res.json())
+        .then((pizza) => setPizzas(pizza))
+        .catch(console.log)
+
+
+        
+         */
  }, []);
  return (
    <div className='p-5 m-auto text-center content bg-ivory'>
