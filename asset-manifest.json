@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/my-app/static/css/main.7ff35193.css",
-    "main.js": "/my-app/static/js/main.351e1ea0.js",
-    "index.html": "/my-app/index.html",
-    "main.7ff35193.css.map": "/my-app/static/css/main.7ff35193.css.map",
-    "main.351e1ea0.js.map": "/my-app/static/js/main.351e1ea0.js.map"
+    "main.css": "/pizza-frontend/static/css/main.7ff35193.css",
+    "main.js": "/pizza-frontend/static/js/main.351e1ea0.js",
+    "index.html": "/pizza-frontend/index.html",
+    "main.7ff35193.css.map": "/pizza-frontend/static/css/main.7ff35193.css.map",
+    "main.351e1ea0.js.map": "/pizza-frontend/static/js/main.351e1ea0.js.map"
   },
   "entrypoints": [
     "static/css/main.7ff35193.css",
