@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, NavLink, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, NavLink, Routes, Route } from "react-router-dom";
 import './App.css';
 import { PizzaCreatePage } from "./Components/PizzaCreatePage";
 import { PizzaListPage } from "./Components/PizzaListPage";
