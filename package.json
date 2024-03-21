@@ -2,7 +2,7 @@
   "name": "pizza-frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://pejkob.github.io/my-app",
+  "homepage": "https://pejkob.github.io/pizza-frontend",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
