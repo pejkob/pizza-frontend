@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-export function PizzaCreatePage() {
+export default function PizzaCreatePage() {
 
     const navigate = useNavigate();
 
@@ -11,7 +11,7 @@ export function PizzaCreatePage() {
             onSubmit={(e) => {
                 e.persist();
                 e.preventDefault();
-                fetch("https://pizza.kando-dev.eu/Pizza", {
+                fetch('https://pizza.kando-dev.eu/Pizza', {
                     method: "POST",
                     headers: { 
                         'Accept': 'application/json',
@@ -30,7 +30,7 @@ export function PizzaCreatePage() {
             }}
                 >
                 <div className='form-group row pb-3'>
-                    <label htmlFor="name" className='col-sm-3 col-form-label'> Név: </label>
+                    <label htmlFor="name" className='col-sm-3 col-form-label'> Pizza név: </label>
                         <div>
                             <input type="text" id="name" name="name" className="form-control" autoComplete='name' />
                         </div>
@@ -43,7 +43,7 @@ export function PizzaCreatePage() {
                 </div>
                 
                 <div className='form-group row pb-3'>
-                    <label htmlFor="kepURL" className='col-sm-3 col-form-label'> Kép URL: </label>
+                    <label htmlFor="kepURL" className='col-sm-3 col-form-label'> Kép URL-je: </label>
                         <div>
                             <input type="text" id="kepURL" name="kepURL" className="form-control" autoComplete='kepURL' />
                         </div>
